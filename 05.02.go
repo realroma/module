@@ -1,40 +1,37 @@
 package main
 
 import (
-	"errors"
+//	"errors"
 	"fmt"
 	"time"
 )
 
-func write(ch chan<- int) {
+func write(ch chan<- int, t *time.Timer) {
 	fmt.Println("Writing in chanel")
-	for i := 0; i <= 3; i++ { //Записываем в небуферизированный канал значения.
+	time.Sleep(1 * time.Second)
+	select {
+	case <-t.C:
+		fmt.Println("Func is stop.")
+	default:
+		for i := 0; i <= 3; i++ { //Записываем в небуферизированный канал значения.
 		ch <- i
+		}
 	}
 	close(ch) //
 }
 
-func read(ch <-chan int, t *time.Timer) {
-	time.Sleep(2 * time.Second)
-	fmt.Println("Seting for read")
-	select {
-	case <-t.C:
-		err := errors.New("Time is out.")
-		fmt.Println(err)
-		return
-	case <-ch:
-		for i := range ch {
-			fmt.Printf("Done %v.\n", i)
-		}
-	}
+func read(i int) {
+	fmt.Printf("Done %v.\n", i)
 }
 
 func MyFunc () {
 	ch := make(chan int)
-	go write(ch)
 	timer := time.NewTimer(1 * time.Second)
-	go read(ch, timer)
-	time.Sleep(3 * time.Second)
+	go write(ch, timer)
+	for i := range ch {
+		go read(i)
+	}
+	time.Sleep(2 * time.Second)
 }
 
 func main() {
