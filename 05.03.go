@@ -1,14 +1,15 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"time"
 )
 
-func went(t *time.Timer){
-	time.Sleep(2 * time.Second)
+func went(ctx context.Context, i int){
+	time.Sleep(time.Duration(i) * time.Second)
 	select {
-	case <-t.C:
+	case <-ctx.Done():
 		fmt.Println("Time is out.")
 	default:
 		fmt.Println("Ready.")
@@ -16,11 +17,11 @@ func went(t *time.Timer){
 }
 
 func main() {
-	timer := time.NewTimer(1 * time.Second)
-	go went(timer)
-	timer = time.NewTimer(3 * time.Second)
-	go went(timer)
+	parent := context.Background()
+	ctx, _ := context.WithTimeout(parent, 1500 * time.Millisecond)
+	go went(ctx, 1)
+	go went(ctx, 2)
 	fmt.Println("Wait")
-	time.Sleep(4 * time.Second)
+	time.Sleep(3 * time.Second)
 	fmt.Println("Main is ends.")
 }
