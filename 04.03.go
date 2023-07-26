@@ -2,6 +2,7 @@ package main
 
 import (
         "fmt"
+	"time"
 )
 
 var str string
@@ -39,7 +40,7 @@ func GetMertics(){
 
 type GoMetrClient struct {
         url string
-        timeout int
+        timeOut time.Duration
 }
 
 type HealthCheck struct {
@@ -56,7 +57,11 @@ func (GMC *GoMetrClient) GetID() {
 }
 
 func (GMC *GoMetrClient) Health() {
-        a := getHealth()
+	select {
+	case <-time.After(GMC.timeOut * time.Second):
+		break
+	}
+	a := getHealth()
         str = str + "GetID: " + a.ServisID + " Health: " + a.status + "\n"
 	fmt.Println(str)
 }

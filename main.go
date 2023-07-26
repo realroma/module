@@ -1,6 +1,7 @@
 package main
 
 import "fmt"
+
 const (
 	PassStatuse = "pass"
 	FailStatuse = "fail"
@@ -24,6 +25,10 @@ func GenerateCheck() []HealthCheck {
 		}
         }
 	return slise //Возвращаем слайс структур
+}
+
+func Run() {
+
 }
 
 func main () {
