@@ -2,28 +2,46 @@ package main
 
 import (
 	"bufio"
-//	"fmt"
+	"fmt"
 	"module/server"
 	"net/http"
 	"os"
-	//	"strings"
-//	"io"
 )
 
-func main() {
-	Server()
-	server.Httpserver()
+func EnvCreate(){
+	os.Setenv("APP_LOGFILE_PATH", "Log/log.txt")
 }
 
-func post(w http.ResponseWriter, req *http.Request) {
-	p := make([]byte, 1024)
-	bufio.NewReader(req.Body).Read(p)
-	file, _ := os.Create("log.txt")
+func Find()string {
+	_, was := os.LookupEnv("APP_LOGFILE_PATH")
+	if was == false {
+		os.Setenv("APP_LOGFILE_PATH", "log.txt")
+	}
+	return os.Getenv("APP_LOGFILE_PATH")
+}
+
+func main() {
+	EnvCreate()
+	fmt.Println(Find())
+	Server()
+}
+
+func Write(text string) {
+	file, _ := os.Create(os.Getenv("APP_LOGFILE_PATH"))
 	defer file.Close()
-	file.Write(p)
-	_ = file.Sync()
+	file.WriteString(text)
+	file.Sync()
+}
+
+func Post(w http.ResponseWriter, req *http.Request) {
+	scanner := bufio.NewScanner(req.Body)
+	scanner.Scan()
+	a := scanner.Text()
+	Write(a)
+	fmt.Println(a)
 }
 
 func Server() {
-	http.HandleFunc("/", post)
+	http.HandleFunc("/", Post)
+	server.HTTPServer()
 }

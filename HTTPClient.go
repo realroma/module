@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"net/http"
-//	"bufio"
 	"strings"
 )
 
@@ -15,6 +14,7 @@ func HTTPClient() {
 	r := strings.NewReader("my request")
 	resp, _ := http.Post("http://localhost:8080", "/POST", r)
 	defer resp.Body.Close()
+	fmt.Println(resp.Status)
 }
 
 func main() {
