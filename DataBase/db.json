@@ -1,11 +1,1 @@
-{
-    "status": "pass",
-    "service_id": "MBPadmincity101",
-    "checks": {
-        "ping_mysql": {
-            "component_id": "mysql",
-            "component_type": "db",
-            "status": "pass"
-        }
-    }
-}
+{"status": "pass","service_id": "MBPadmincity101","checks": {"ping_mysql": {"component_id": "mysql","component_type": "db","status": "pass"}}}
