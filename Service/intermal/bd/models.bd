@@ -3,5 +3,5 @@ CREATE TABLE models
     id SERIAL PRIMARY KEY,
     name CHARACTER VARYING(30),
     value CHARACTER VARYING(30),
-    timestamp INTEGER
+    timestamp VARYING(30)
 );
