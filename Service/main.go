@@ -1,12 +1,13 @@
 package main
 
 import (
-	"context"
-	"module/Service/checker"
-        "fmt"
-	"time"
+//	"context"
+//	"module/Service/checker"
+//      "fmt"
+//	"time"
+	"module/Service/intermal/models"
 )
-
+/*
 var str string
 var l int
 
@@ -22,9 +23,21 @@ type GoMetrClient struct {
 func (GMC *GoMetrClient) GetMetrics() {
 
 }
-
+*/
 func main() {
-	items := &checker.Checker{}
+	f := "Hi!"
+	models.DataBaseLoad(f)
+
+
+
+
+
+
+
+
+
+
+/*	items := &checker.Checker{}
 
 	ctx, cancel := context.WithCancel(context.Background())
 	change := make(chan int)
@@ -60,5 +73,6 @@ func main() {
 	fmt.Println("Finish.")
 	fmt.Print(items)
 	items.Stop(cancel)
+*/ 
 }
 

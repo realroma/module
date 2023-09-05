@@ -1,14 +1,15 @@
 package models
 
 import	(
+	"fmt"
 	"os"
-	"io/ioutil"
-	"encoding/json"
+//	"io/ioutil"
+//	"encoding/json"
 )
 
 func ErrCheck(err error) {
 	if err != nil {
-		fmt.Pritnln("Error:", err)
+		fmt.Println("Error:", err)
 		os.Exit(1)
 	}
 }
@@ -23,25 +24,23 @@ type models struct {
 
 func DataBaseList() {}
 func DataBaseAdd() {}
-
-func DataBaseMarshal(text []byte) text  {
-	structJson := models{
-		id: 0
-		name: "Some name",
-		value: "Some value",
-		timestamp: "Some time"
+/*
+func DataBaseMarshal(text []byte) textJson{
+	structJson := models {
+		Id: 0,
+		Name: "Some name",
+		Value: "Some value",
+		Date: "Some time",
 	}
 	textJson, _ := json.MarshalIndent(structJson, text)
 	return textJson
 }
-
+*/
 func DataBaseUnmarshal() {}
 
-func DataBaseLoad(writer string) {
-	file, err := os.Open("module/Service/intermal/bd/mosels.bd")
+func DataBaseLoad(text string) {
+	file, err := os.OpenFile("intermal/bd/models_test.bd", os.O_APPEND|os.O_CREATE, 0600)
 	defer file.Close()
-	file, err := ioutil.ReadFile("module/Service/intermal/bd/models.bd")
 	ErrCheck(err)
-	file.Write(writer)
-	file.Sync()
+	file.WriteString(text)
 }
