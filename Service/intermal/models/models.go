@@ -14,11 +14,11 @@ func ErrCheck(err error) {
 	}
 }
 
-type models struct {
-    Id int
-    Name string
-    Value string
-    Date string
+type Models struct {
+    Id int 'json: id'
+    Name string 'json: name'
+    Value string 'json: value'
+    Date string	'json: timestamp'
 }
 
 

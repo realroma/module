@@ -11,6 +11,8 @@ func ServerRead(SWrite http.ResponseWriter, request *http.Request) {
 
 
 func main() {
-	resp, _ := http.Get("http://localhost:8080", "/metrics", )
+	r := strings.NewReader("my request")
+	resp, _ := http.Get("http://localhost:8080", "/metrics", r)
+	defer resp.Body.Close()
 	fmt.Println("Some")
 }

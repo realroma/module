@@ -1,11 +1,11 @@
-package main
+tpackage main
 
 import (
 //	"context"
 //	"module/Service/checker"
 //      "fmt"
 //	"time"
-	"module/Service/intermal/models"
+//	"module/Service/intermal/models"
 )
 /*
 var str string
@@ -25,17 +25,8 @@ func (GMC *GoMetrClient) GetMetrics() {
 }
 */
 func main() {
-	f := "Hi!"
-	models.DataBaseLoad(f)
-
-
-
-
-
-
-
-
-
+//	f := "Hi!"
+//	models.DataBaseLoad(f)
 
 /*	items := &checker.Checker{}
 
