@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"fmt"
 	"io/ioutil"
-	"module/server"
+	"project/module/server"
 )
 
 func json(w http.ResponseWriter, req *http.Request) {

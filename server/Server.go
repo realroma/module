@@ -1,11 +1,11 @@
 package server
 
 import (
-	"net/http"
 	"fmt"
+	"net/http"
 )
 
 func HTTPServer() {
-	fmt.Println("start")
+	fmt.Println("start server")
 	http.ListenAndServe(":8080", nil)
 }

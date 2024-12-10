@@ -80,11 +80,11 @@ func GetMertics() string {
 
 type Checkable interface {
 	Measurable
-	//Встравание интерфейса и его методов.
+	//Measurable Встраивание интерфейса и его методов.
 	Ping() error
-	//Метод для интерфейса. Все методы интерфейса джны быть и у объекта, для корректной работы интерфейса с объектом.
 	GetID(bool) string
 	Health(bool) bool
+	// Ping() GetID() Health() Методы для интерфейса. Все методы интерфейса должны быть и у объекта, для корректной работы интерфейса с объектом.
 }
 
 type HealthCheck struct {

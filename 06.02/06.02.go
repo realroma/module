@@ -3,15 +3,15 @@ package main
 import (
 	"bufio"
 	"encoding/json"
-	"fmt"
 	"flag"
+	"fmt"
 	"net/http"
 )
 
 type Upstruc struct {
-	Status string
+	Status     string
 	Service_id string
-	Checks checks
+	Checks     checks
 }
 
 type checks struct {
@@ -19,9 +19,9 @@ type checks struct {
 }
 
 type ping_mysql struct {
-	Component_id string
+	Component_id   string
 	Component_type string
-	Status string
+	Status         string
 }
 
 func main() {
@@ -43,4 +43,5 @@ func HTTPClient(url string) {
 	a := scanner.Text()
 	unmarshal(a)
 }
+
 //How to use? Write with "-url http://localhost:8080/health".

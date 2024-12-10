@@ -3,16 +3,16 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"module/server"
 	"net/http"
 	"os"
+	"server/server"
 )
 
-func EnvCreate(){
+func EnvCreate() {
 	os.Setenv("APP_LOGFILE_PATH", "Log/log.txt")
 }
 
-func Find()string {
+func Find() string {
 	_, was := os.LookupEnv("APP_LOGFILE_PATH")
 	if was == false {
 		os.Setenv("APP_LOGFILE_PATH", "log.txt")
