@@ -1,6 +1,8 @@
 package config
 
 import (
+	"fmt"
+
 	"github.com/spf13/viper"
 )
 
@@ -17,11 +19,11 @@ func LoadAndStoreConfig() Cfg {
 	v.SetDefault("DbName", "postgres")
 	v.AutomaticEnv()
 
-	var cfg cfg
+	var cfg Cfg
 
 	return cfg
 }
 
 func (cfg *Cfg) GetDBSting() string {
-	return fmt.Sprintf("postgres://%s@%s", cfg.DbHost, cfg.DbPort)
+	return fmt.Sprintf("postgres://%s@%s", cfg.DbHost, cfg.Port)
 }

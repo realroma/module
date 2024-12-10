@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"server/server"
+	"project/module/server"
 )
 
 func EnvCreate() {

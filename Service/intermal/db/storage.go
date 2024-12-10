@@ -1,8 +1,9 @@
 package db
 
-import(
+import (
 	"fmt"
 	"module/Service/intermal/models"
+
 	"github.com/georgysavva/scany/pgxscan"
 	"github.com/jackc/pgx/v4/pgxpool"
 )
@@ -22,7 +23,7 @@ func (storage *Storage) List(nameFilter string) []models.Models {
 	args := make([]interface{}, 0)
 	if nameFilter != "" {
 		query += "WHERE name LIKE $1"
-		args = append(args, fmt.Sprintf(%%%s%%, nameFilter))
+		args = append(args, fmt.Sprintf("%%%s%%", nameFilter))
 	}
 
 	var result []models.Models

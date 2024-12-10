@@ -1,11 +1,10 @@
 package main
 
-import(
+import (
 	"net/http"
-	"servemux"
 )
 
-func home (w http.ResponseWriter, r *http.Request) {
+func home(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Http header."))
 }
 

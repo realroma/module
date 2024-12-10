@@ -3,12 +3,12 @@ package main
 import (
 	"fmt"
 	"net/http"
+	"strings"
 )
 
-func ServerRead(SWrite http.ResponseWriter, request *http.Request) {
-	fmt.Fprintf(request)
-}
-
+// func ServerRead(SWrite http.ResponseWriter, request *http.Request) {
+// 	fmt.Fprintf(request)
+// }
 
 func main() {
 	r := strings.NewReader("my request")

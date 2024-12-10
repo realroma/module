@@ -1,15 +1,14 @@
 package main
 
 import (
-//	"os"
-	"net/http"
 	"fmt"
-	"io/ioutil"
+	"net/http"
+	"os"
 	"project/module/server"
 )
 
 func json(w http.ResponseWriter, req *http.Request) {
-	file, _ := ioutil.ReadFile("DataBase/db.json")
+	file, _ := os.ReadFile("DataBase/db.json")
 	a := string(file)
 	fmt.Println(a)
 	fmt.Fprintf(w, a)
