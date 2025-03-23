@@ -1,4 +1,4 @@
-package 05.04
+package main
 
 import (
 	"fmt"

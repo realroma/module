@@ -1,7 +1,7 @@
 package main
 
 import (
-        "fmt"
+	"fmt"
 	"time"
 )
 
@@ -9,14 +9,14 @@ var str string
 var l int
 
 type Checker struct {
-        items []interface{}
+	items []interface{}
 }
 
 func (Checker *Checker) Add(items Checkable) {
-        Checker.items = append(Checker.items, items)
+	Checker.items = append(Checker.items, items)
 }
 
-func Check(c *Checker){
+func Check(c *Checker) {
 	for _, value := range c.items {
 		a, _ := value.(*GoMetrClient)
 		a.Health()
@@ -24,28 +24,28 @@ func Check(c *Checker){
 }
 
 type Checkable interface {
-        Measurable
-        Ping()
-        GetID()
-        Health()
+	Measurable
+	Ping()
+	GetID()
+	Health()
 }
 
 type Measurable interface {
-        GetMetrics()
+	GetMetrics()
 }
 
-func GetMertics(){
+func GetMertics() {
 
 }
 
 type GoMetrClient struct {
-        url string
-        timeOut time.Duration
+	url     string
+	timeOut time.Duration
 }
 
 type HealthCheck struct {
 	ServisID string
-	status string
+	status   string
 }
 
 func (GMC *GoMetrClient) Ping() {
@@ -62,7 +62,7 @@ func (GMC *GoMetrClient) Health() {
 		break
 	}
 	a := getHealth()
-        str = str + "GetID: " + a.ServisID + " Health: " + a.status + "\n"
+	str = str + "GetID: " + a.ServisID + " Health: " + a.status + "\n"
 	fmt.Println(str)
 }
 
@@ -70,7 +70,7 @@ func (GMC *GoMetrClient) GetMetrics() {
 
 }
 
-func getHealth() *HealthCheck{
+func getHealth() *HealthCheck {
 	a := new(HealthCheck)
 	switch l {
 	case 0:
@@ -85,16 +85,15 @@ func getHealth() *HealthCheck{
 }
 
 func main() {
-        items := &Checker{}
-        var Checkable1 Checkable
-        var Checkable2 Checkable
-        var Checkable3 Checkable
+	items := &Checker{}
+	var Checkable1 Checkable
+	var Checkable2 Checkable
+	var Checkable3 Checkable
 	Checkable1 = &GoMetrClient{}
 	Checkable2 = &GoMetrClient{}
 	Checkable3 = &GoMetrClient{}
-        items.Add(Checkable1)
-        items.Add(Checkable2)
-        items.Add(Checkable3)
+	items.Add(Checkable1)
+	items.Add(Checkable2)
+	items.Add(Checkable3)
 	Check(items)
 }
-

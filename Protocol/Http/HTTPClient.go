@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"strings"
 )
@@ -12,7 +13,10 @@ func hello(w http.ResponseWriter, req *http.Request) {
 
 func HTTPClient() {
 	r := strings.NewReader("my request")
-	resp, _ := http.Post("http://localhost:8080", "/POST", r)
+	resp, err := http.Post("http://localhost:8080", "/POST", r)
+	if err != nil {
+		log.Fatal(err)
+	}
 	defer resp.Body.Close()
 	fmt.Println(resp.Status)
 }
@@ -20,4 +24,3 @@ func HTTPClient() {
 func main() {
 	HTTPClient()
 }
-

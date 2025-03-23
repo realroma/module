@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-func went(ctx context.Context, i int){
+func went(ctx context.Context, i int) {
 	time.Sleep(time.Duration(i) * time.Second)
 	select {
 	case <-ctx.Done():
@@ -18,7 +18,10 @@ func went(ctx context.Context, i int){
 
 func main() {
 	parent := context.Background()
-	ctx, _ := context.WithTimeout(parent, 1500 * time.Millisecond)
+	ctx, err := context.WithTimeout(parent, 1500*time.Millisecond)
+	if err != nil {
+
+	}
 	go went(ctx, 1)
 	go went(ctx, 2)
 	fmt.Println("Wait")
