@@ -13,4 +13,8 @@ func main() {
 	v, _ := json.Marshal(m)
 
 	fmt.Println(v)
+
+	_ = json.Unmarshal(v, &m)
+
+	fmt.Println(m)
 }
