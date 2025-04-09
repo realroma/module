@@ -1,18 +1,19 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
-func foo() error{
+func foo() {
 	panic("empty func")
-	return nil
 }
 
 func main() {
-	defer func () {
-		err := recover()//Обработка паники и возрат ошибки.
+	defer func() {
+		err := recover() //Обработка паники и возрат ошибки.
 		fmt.Println("Found error:")
 		fmt.Println(err)
-	}()//Обязательно две скобки в конце () при наличии recover()
+	}() //Обязательно две скобки в конце () при наличии recover()
 	foo()
 	fmt.Println("Suckcess")
 }
