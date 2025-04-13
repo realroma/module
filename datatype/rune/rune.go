@@ -14,4 +14,7 @@ func main() {
 	var t string = "И"
 	v = []rune(t)
 	fmt.Println(v)
+
+	var d rune
+	fmt.Println(d)
 }

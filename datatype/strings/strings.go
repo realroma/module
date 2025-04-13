@@ -13,4 +13,5 @@ func main() {
 	//Любая строка это массив байтов - это надо помнить.
 	a := []byte(v)
 	fmt.Println(a)
+	fmt.Println([]byte("{\"some\":\"map\"}"))
 }
