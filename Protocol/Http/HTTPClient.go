@@ -7,9 +7,9 @@ import (
 	"strings"
 )
 
-func hello(w http.ResponseWriter, req *http.Request) {
-	fmt.Fprintf(w, "hello\n") //просто печатаем нашу строку в ResponseWriter, он поддерживает Writer
-}
+// func hello(w http.ResponseWriter, req *http.Request) {
+// 	fmt.Fprintf(w, "hello\n") //просто печатаем нашу строку в ResponseWriter, он поддерживает Writer
+// }
 
 func HTTPClient() {
 	r := strings.NewReader("my request")
@@ -23,4 +23,5 @@ func HTTPClient() {
 
 func main() {
 	HTTPClient()
+	// hello()
 }

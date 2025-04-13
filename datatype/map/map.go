@@ -5,12 +5,12 @@ import (
 )
 
 func main() {
-	//
 	var m map[string]int
 	fmt.Println(m)
-	//Value for default
+	//Пустая карта без значений.
 	fmt.Println(m["word"])
-	//Try check is value in the map
+	//Получаем значение по ключу, но оно будет пустым
+	//Пустые значения для типов string - ""[[]byte, []rune], [int, uint, rune, byte] - 0, [slice, array] - [], struct - {DefaultOfField...}
 	val, ok := m["word"]
 
 	fmt.Println("Status: ", ok)
