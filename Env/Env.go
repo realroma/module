@@ -50,6 +50,8 @@ func main() {
 	//Неправильное название, которое не будет определено, но всё равно запишется.
 	os.Setenv("KEY3", "NotNone")
 
+	//Надо было правильно читать. Была функция ReadConfig. Если заглянуть в библиотеку cleanenv и посмотреть что она делает, то можно заметить что она принимает path и cfg
+	//ReadEnv принимает только cfg. А почему? потому что
 	ConfRead()
 	cleanenv.ReadEnv(&cfg)
 	fmt.Println(&cfg)
@@ -60,4 +62,16 @@ func main() {
 	cleanenv.ReadEnv(&cfg)
 
 	fmt.Println(&cfg)
+
+	text, err := os.ReadFile("/home/cpp/project/module/Env/env/.env")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(string(text))
+
+	//Верный вариант работы с конфигами.
+	//Из-за махинаций выше, у меня выводится 3 значения вместо 2-х.
+	var cfg2 config
+	cleanenv.ReadConfig("/home/cpp/project/module/Env/.env", &cfg2)
+	fmt.Println(cfg2)
 }
