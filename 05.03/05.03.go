@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
 	"time"
 )
 
@@ -20,7 +21,7 @@ func main() {
 	parent := context.Background()
 	ctx, err := context.WithTimeout(parent, 1500*time.Millisecond)
 	if err != nil {
-
+		log.Fatal(err)
 	}
 	go went(ctx, 1)
 	go went(ctx, 2)
