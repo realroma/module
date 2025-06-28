@@ -11,17 +11,11 @@ import (
 // Если в context.WithTimeout(parent, timer) timer > run.main, то контекст не выполнится, так как основная ветка закончится раньше. Окончание горутин не отслеживается.
 // Если нужно чтобы контекст выполнился, необходимо добавить ожидание в main или сделать WaitGroap из синхронизации.
 // При использовании разных типов в switch case может не давать выполнить ctx.Done().
-func ctxTimer() {
-	parent := context.Background()
+func ctxTimer(parent context.Context, i int) {
 	ctx, err := context.WithTimeout(parent, 1500*time.Millisecond)
 	if err != nil {
 		log.Fatal(err)
 	}
-	go went(ctx, 1)
-	go went(ctx, 2)
-	fmt.Println("Wait")
-}
-func went(ctx context.Context, i int) {
 	time.Sleep(time.Duration(i) * time.Second)
 	select {
 	case <-ctx.Done():
@@ -29,10 +23,13 @@ func went(ctx context.Context, i int) {
 	default:
 		fmt.Println("Ready.")
 	}
+	fmt.Println("Wait")
 }
 
 func main() {
-	ctxTimer()
+	parent := context.Background()
+	ctxTimer(parent, 1)
+	ctxTimer(parent, 2)
 	time.Sleep(3 * time.Second)
 	fmt.Println("Main is ends.")
 }
