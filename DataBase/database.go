@@ -6,6 +6,7 @@ import (
 	"fmt"
 
 	//Драйвер базы данных.
+	"github.com/ilyakaznacheev/cleanenv"
 	_ "github.com/lib/pq"
 )
 
@@ -17,7 +18,21 @@ type product struct {
 }
 
 func main() {
-	connStr := "user=cpp password=h2o dbname=demo sslmode=disable"
+	//Если не будет работать, надо будет перепроверить пользователя, пароль, базу данных, права.
+	type config struct {
+		User     string `env:"USER"`
+		Password string `env:"PASSWORD"`
+		DBName   string `env:"DBNAME"`
+	}
+	var cfg config
+	cleanenv.ReadConfig("/home/cpp/project/module/DataBase/.env", &cfg)
+
+	//Для работы этих строчек нужен .env файл вида:
+	//USER=user
+	//PASSWORD=password
+	//DBNAME=name
+	var connStr = fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable", cfg.User, cfg.Password, cfg.DBName)
+	fmt.Println(connStr)
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
 		panic(err)
@@ -31,15 +46,13 @@ func main() {
 }
 
 func add_db(db *sql.DB) {
-
 	result, err := db.Exec("insert into Products (model, company, price) values ('iPhone X', $1, $2)", "Apples", 72000)
-
 	if err != nil {
 		panic(err)
 	}
+
 	fmt.Print(result.LastInsertId())
 	fmt.Println(result.RowsAffected())
-	return
 }
 
 func del_db(db *sql.DB) {
@@ -49,6 +62,7 @@ func del_db(db *sql.DB) {
 		if err != nil {
 			panic(err)
 		}
+		//Возвращает номера изменнёных, удалённых, введёных строк.
 		fmt.Println(result.RowsAffected())
 	}
 }

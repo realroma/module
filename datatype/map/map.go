@@ -25,6 +25,7 @@ func main() {
 	delete(m, "Some")
 
 	fmt.Println(map2)
+	print()
 
 	//Make() can create only chanel, map, slise.
 	m3 := make(map[int]int)

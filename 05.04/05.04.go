@@ -13,6 +13,8 @@ func even(arr [5]int, wg *sync.WaitGroup, ch chan<- int, oddCh chan<- int, evenC
 		case <-evenCh: //Слушаем канал.
 			ch <- arr[i]
 			oddCh <- 0 //Запускаем другой поток, передав в канал, который он слушает, значение.
+		default:
+			fmt.Println("Wait.")
 		}
 	}
 	wg.Done()
@@ -25,6 +27,8 @@ func odd(arr [5]int, wg *sync.WaitGroup, ch chan<- int, oddCh <-chan int, evenCh
 		case <-oddCh:
 			ch <- arr[i]
 			evenCh <- 0
+		default:
+			fmt.Println("Wait.")
 		}
 	}
 	wg.Done()

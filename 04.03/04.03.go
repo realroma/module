@@ -60,6 +60,8 @@ func (GMC *GoMetrClient) Health() {
 	select {
 	case <-time.After(GMC.timeOut * time.Second):
 		break
+	default:
+		fmt.Println("Nothing.")
 	}
 	a := getHealth()
 	str = str + "GetID: " + a.ServisID + " Health: " + a.status + "\n"
