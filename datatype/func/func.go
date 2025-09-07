@@ -4,11 +4,19 @@ import "fmt"
 
 func someF1(b int) (val int) {
 	//Val Инициализируется при входе.
-	if b == 2 {
+	switch {
+	case b == 2:
 		val = 2
-	} else if b == 1 {
+	case b == 1:
 		val = 1
 	}
+	return val
+}
+
+func someF1WithPointerOnWalueAndReturnInArguments(v *int) (returnedValue int) {
+	fmt.Println(&v) //Адрес ссылки
+	*v = 3
+	returnedValue = 5
 	return
 }
 
@@ -20,23 +28,31 @@ type somestruct struct {
 	field int
 }
 
-func someF2(val int) int {
-	if val == 2 {
+func someF2(val int) int { //val int - получаем копию значения и работаем с ней. Для получения оригинала нужно получить указатель на данные(*)
+	switch {
+	case val == 2:
 		val = 4
-	} else if val == 1 {
+	case val == 1:
 		val = 2
 	}
-	//
 	return val
 }
 
-// Мы можем возвращать функции в return. Надо дописать.
+// Мы можем возвращать функции в return.
 func funin() func(a, b int) (c int) { //Здесь мы записываем функцию в любую переменную. То есть мы можем потом предать в переменную значения и они выполнятся.
 	return func(a, b int) (c int) { return a + b } //a,b int значит что эти две переменных одного типа.
 }
 
+func ManyArgyments(a ...int) {} //Мы можем принять разное количество переменных в функцию. (Создаётся слайс[]Type(В данном случае []int) а "..." распаковывает.)
+
+// ...
+
+func AnyArguments(slise []int, a ...int) {}
+
+//...
+
 func main() {
-	//Анонимная функция - одноразовая функция делающая некоторые действия без присвоения в переменную.
+	//Анонимная функция - функция присваиваемая в переменную
 	f := func(x, y int) int { return x + y }
 	fmt.Println(f(1, 2))
 
@@ -52,8 +68,17 @@ func main() {
 	testStruct := func(s somestruct) { fmt.Println(s) }
 	testStruct(s)
 
+	var v = 5
+	fmt.Println(someF1WithPointerOnWalueAndReturnInArguments(&v))
+
 	a := 1
 	b := 2
 	c := funin()         //Пример функции в переменной.
 	fmt.Println(c(a, b)) //Выполняем переменную.
+
+	//Мы объявляем анонимную функицю вот так func(){}, но что тоогда значат ()(круглые скобки) после {}(Фигурных скобок)?
+	//Это - вызов анонимной функции сразу.
+	func() {
+		fmt.Println("Анонимная функция выполнена.")
+	}()
 }

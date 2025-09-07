@@ -5,6 +5,9 @@ import (
 	"reflect"
 )
 
+// Объявление переменной как типа:
+type f int
+
 type struc struct {
 	field1 int
 	field2 string
