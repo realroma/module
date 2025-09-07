@@ -10,6 +10,7 @@ import (
 	"gioui.org/app"
 	"gioui.org/layout"
 	"gioui.org/op"
+	"gioui.org/text"
 	"gioui.org/unit"
 	"gioui.org/widget"
 	"gioui.org/widget/material"
@@ -68,8 +69,9 @@ func draw(w *app.Window) error {
 				layout.Rigid(
 					func(gtx C) D {
 						theme := material.NewTheme()
-						text := material.H5(theme, "some walue")
-						return text.Layout(gtx)
+						text1 := material.H5(theme, "some walue")
+						text1.Alignment = text.Middle
+						return text1.Layout(gtx)
 					},
 				),
 				layout.Rigid(
