@@ -4,6 +4,7 @@ package main
 
 import (
 	"errors"
+	"image/color"
 	"log"
 	"os"
 
@@ -24,6 +25,7 @@ func draw(w *app.Window) error {
 
 	var firstButton widget.Clickable
 	var secondButton widget.Clickable
+	var field widget.Editor
 
 	th := material.NewTheme()
 
@@ -45,6 +47,32 @@ func draw(w *app.Window) error {
 						theme := material.NewTheme()
 						text := material.H5(theme, "some walue")
 						return text.Layout(gtx)
+					},
+				),
+				layout.Rigid(
+					func(gtx C) D {
+						margins := layout.Inset{
+							Top:    unit.Dp(0),
+							Right:  unit.Dp(300),
+							Bottom: unit.Dp(40),
+							Left:   unit.Dp(10),
+						}
+
+						ed := material.Editor(th, &field, "Угол")
+
+						field.SingleLine = true
+						field.Alignment = text.Middle
+
+						border := widget.Border{
+							Color:        color.NRGBA{R: 204, G: 204, B: 204, A: 255},
+							CornerRadius: unit.Dp(3),
+							Width:        unit.Dp(2),
+						}
+						return margins.Layout(gtx,
+							func(gtx C) D {
+								return border.Layout(gtx, ed.Layout)
+							},
+						)
 					},
 				),
 				layout.Rigid(
