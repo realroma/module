@@ -35,7 +35,11 @@ func main() {
 	//USER=user
 	//PASSWORD=password
 	//DBNAME=name
+<<<<<<< HEAD
 	var connStr = fmt.Sprintf("user=%s password=%s dbname=%s sslmode=disable", cfg.User, cfg.Password, cfg.DBName)
+=======
+	var connStr = fmt.Sprintf("user= %s password= %s dbname= %s sslmode=disable", cfg.User, cfg.Password, cfg.DBName)
+>>>>>>> 4be6b3bd90230bab04ce98fc1eba777409234449
 	fmt.Println(connStr)
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
