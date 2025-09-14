@@ -7,6 +7,8 @@ import (
 	"image/color"
 	"log"
 	"os"
+	"strconv"
+	"strings"
 
 	"gioui.org/app"
 	"gioui.org/layout"
@@ -24,8 +26,23 @@ func draw(w *app.Window) error {
 	var ops op.Ops
 
 	var firstButton widget.Clickable
+	var fieldValueRing widget.Editor
+
 	var secondButton widget.Clickable
-	var field widget.Editor
+	var fieldValueVint widget.Editor
+	var fieldHeight widget.Editor
+	var fieldDiametr widget.Editor
+
+	type Vint struct {
+		Height  float64
+		Diametr float64
+		Value   float64
+	}
+	var Vi Vint
+
+	var form func(f float64) string = func(f float64) string { return strconv.FormatFloat(f, 'f', 2, 64) }
+
+	var valout float64
 
 	th := material.NewTheme()
 
@@ -42,85 +59,182 @@ func draw(w *app.Window) error {
 				Spacing: layout.SpaceBetween,
 			}.Layout(
 				gtx,
-				layout.Rigid(
-					func(gtx C) D {
-						theme := material.NewTheme()
-						text := material.H5(theme, "some walue")
-						return text.Layout(gtx)
-					},
-				),
-				layout.Rigid(
-					func(gtx C) D {
-						margins := layout.Inset{
-							Top:    unit.Dp(0),
-							Right:  unit.Dp(300),
-							Bottom: unit.Dp(40),
-							Left:   unit.Dp(10),
-						}
+				layout.Rigid(func(gtx C) D {
+					theme := material.NewTheme()
+					valv := (valout * 3.14159) / 3.2
+					text1 := material.H5(theme, "Кольцо "+form(valv))
+					text1.Alignment = text.Middle
+					return text1.Layout(gtx)
+				}),
 
-						ed := material.Editor(th, &field, "Угол")
+				layout.Rigid(func(gtx C) D {
+					margins := layout.Inset{
+						Top:    unit.Dp(10),
+						Right:  unit.Dp(350),
+						Bottom: unit.Dp(10),
+						Left:   unit.Dp(10),
+					}
 
-						field.SingleLine = true
-						field.Alignment = text.Middle
+					ed := material.Editor(th, &fieldValueRing, "Значение")
 
-						border := widget.Border{
-							Color:        color.NRGBA{R: 204, G: 204, B: 204, A: 255},
-							CornerRadius: unit.Dp(3),
-							Width:        unit.Dp(2),
-						}
-						return margins.Layout(gtx,
-							func(gtx C) D {
-								return border.Layout(gtx, ed.Layout)
-							},
-						)
-					},
-				),
-				layout.Rigid(
-					func(gtx C) D {
-						margins := layout.Inset{
-							Top:    unit.Dp(25),
-							Bottom: unit.Dp(25),
-							Right:  unit.Dp(35),
-							Left:   unit.Dp(35),
-						}
+					fieldValueRing.SingleLine = true
+					fieldValueRing.Alignment = text.Middle
 
-						return margins.Layout(
-							gtx,
-							func(gtx C) D {
-								fbtn := material.Button(th, &firstButton, "Ring")
+					val := fieldValueRing.Text()
+					val = strings.TrimSpace(val)
+					valout, _ = strconv.ParseFloat(val, 64)
 
-								return fbtn.Layout(gtx)
-							},
-						)
-					},
-				),
-				layout.Rigid(
-					func(gtx C) D {
-						theme := material.NewTheme()
-						text1 := material.H5(theme, "some walue")
-						text1.Alignment = text.Middle
-						return text1.Layout(gtx)
-					},
-				),
-				layout.Rigid(
-					func(gtx C) D {
-						margins := layout.Inset{
-							Top:    unit.Dp(25),
-							Bottom: unit.Dp(25),
-							Right:  unit.Dp(25),
-							Left:   unit.Dp(25),
-						}
+					border := widget.Border{
+						Color:        color.NRGBA{R: 204, G: 204, B: 204, A: 255},
+						CornerRadius: unit.Dp(3),
+						Width:        unit.Dp(2),
+					}
+					return margins.Layout(gtx,
+						func(gtx C) D {
+							return border.Layout(gtx, ed.Layout)
+						},
+					)
+				}),
+				layout.Rigid(func(gtx C) D {
+					margins := layout.Inset{
+						Top:    unit.Dp(25),
+						Bottom: unit.Dp(25),
+						Right:  unit.Dp(35),
+						Left:   unit.Dp(35),
+					}
 
-						return margins.Layout(
-							gtx,
-							func(gtx C) D {
-								sbtn := material.Button(th, &secondButton, "Vint")
+					return margins.Layout(
+						gtx,
+						func(gtx C) D {
+							fbtn := material.Button(th, &firstButton, "Кольцо")
 
-								return sbtn.Layout(gtx)
-							},
-						)
-					},
-				),
+							return fbtn.Layout(gtx)
+						},
+					)
+				}),
+
+				//Второй блок
+
+				layout.Rigid(func(gtx C) D {
+					theme := material.NewTheme()
+					vall := (3.14159 * Vi.Diametr)
+					valc := vall / Vi.Value
+					valo := (60 / (vall / Vi.Value)) * 100 / 32
+					valt := (valc / 1.6) * Vi.Height
+					valg := valt / 4
+					valf := valt / 3
+					str := "Винт: l - " + form(vall) +
+						" c " + form(valc) +
+						" o " + form(valo) +
+						" g " + form(valg) +
+						" f " + form(valf)
+					text1 := material.H5(theme, str)
+					text1.Alignment = text.Middle
+					return text1.Layout(gtx)
+				}),
+				layout.Rigid(func(gtx C) D {
+					margins := layout.Inset{
+						Top:    unit.Dp(10),
+						Right:  unit.Dp(350),
+						Bottom: unit.Dp(10),
+						Left:   unit.Dp(10),
+					}
+
+					ed := material.Editor(th, &fieldHeight, "Высота")
+
+					fieldHeight.SingleLine = true
+					fieldHeight.Alignment = text.Middle
+
+					val := fieldHeight.Text()
+					val = strings.TrimSpace(val)
+					Vi.Height, _ = strconv.ParseFloat(val, 64)
+
+					border := widget.Border{
+						Color:        color.NRGBA{R: 204, G: 204, B: 204, A: 255},
+						CornerRadius: unit.Dp(3),
+						Width:        unit.Dp(2),
+					}
+					return margins.Layout(gtx,
+						func(gtx C) D {
+							return border.Layout(gtx, ed.Layout)
+						},
+					)
+				}),
+				layout.Rigid(func(gtx C) D {
+					margins := layout.Inset{
+						Top:    unit.Dp(10),
+						Right:  unit.Dp(350),
+						Bottom: unit.Dp(10),
+						Left:   unit.Dp(10),
+					}
+
+					ed := material.Editor(th, &fieldDiametr, "Диаметр")
+
+					fieldDiametr.SingleLine = true
+					fieldDiametr.Alignment = text.Middle
+
+					val := fieldDiametr.Text()
+					val = strings.TrimSpace(val)
+					Vi.Diametr, _ = strconv.ParseFloat(val, 64)
+
+					border := widget.Border{
+						Color:        color.NRGBA{R: 204, G: 204, B: 204, A: 255},
+						CornerRadius: unit.Dp(3),
+						Width:        unit.Dp(2),
+					}
+
+					return margins.Layout(gtx,
+						func(gtx C) D {
+							return border.Layout(gtx, ed.Layout)
+						},
+					)
+				}),
+				layout.Rigid(func(gtx C) D {
+					margins := layout.Inset{
+						Top:    unit.Dp(10),
+						Right:  unit.Dp(350),
+						Bottom: unit.Dp(10),
+						Left:   unit.Dp(10),
+					}
+
+					ed := material.Editor(th, &fieldValueVint, "Значение")
+
+					fieldValueVint.SingleLine = true
+					fieldValueVint.Alignment = text.Middle
+
+					val := fieldValueVint.Text()
+					val = strings.TrimSpace(val)
+					Vi.Value, _ = strconv.ParseFloat(val, 64)
+
+					border := widget.Border{
+						Color:        color.NRGBA{R: 204, G: 204, B: 204, A: 255},
+						CornerRadius: unit.Dp(3),
+						Width:        unit.Dp(2),
+					}
+
+					return margins.Layout(gtx,
+						func(gtx C) D {
+							return border.Layout(gtx, ed.Layout)
+						},
+					)
+				}),
+				layout.Rigid(func(gtx C) D {
+					margins := layout.Inset{
+						Top:    unit.Dp(25),
+						Bottom: unit.Dp(25),
+						Right:  unit.Dp(25),
+						Left:   unit.Dp(25),
+					}
+
+					return margins.Layout(
+						gtx,
+						func(gtx C) D {
+							sbtn := material.Button(th, &secondButton, "Винт")
+
+							return sbtn.Layout(gtx)
+						},
+					)
+				}),
 				layout.Rigid(
 					layout.Spacer{Height: unit.Dp(50)}.Layout,
 				),
@@ -136,7 +250,7 @@ func main() {
 	//Надо будет пропробовать не запускать в горутине и посмотреть как оно заблокирует вывод.
 	go func() {
 		w := new(app.Window)
-		w.Option(app.Title("Path"))
+		w.Option(app.Title("Программа"))
 		w.Option(app.Size(unit.Dp(500), unit.Dp(800)))
 
 		if err := draw(w); err != nil {
